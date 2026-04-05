@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0c;
+  --foreground: #e2e8f0;
+  --violet-glow: #8b5cf6;
 }
 
 @theme inline {
@@ -10,17 +11,77 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-jetbrains: var(--font-jetbrains-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.35),
+      0 0 22px rgba(139, 92, 246, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(139, 92, 246, 0.05),
+      0 0 40px rgba(139, 92, 246, 0.7);
+  }
+}
+
+@keyframes glitchShift {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-1px, 1px);
+  }
+  40% {
+    transform: translate(2px, -1px);
+  }
+  60% {
+    transform: translate(-2px, 0);
+  }
+  80% {
+    transform: translate(1px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.glitch-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.glitch-button::before,
+.glitch-button::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  text-shadow: 0 0 12px rgba(139, 92, 246, 0.65);
+}
+
+.glitch-button::before {
+  color: #a78bfa;
+}
+
+.glitch-button::after {
+  color: #22d3ee;
+}
+
+.glitch-button:hover::before,
+.glitch-button:hover::after {
+  opacity: 1;
+  animation: glitchShift 0.6s steps(2, end) infinite;
 }
